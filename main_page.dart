@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'imc_solve.dart';
-import 'package:intl/intl.dart' as intl;
+import 'LogicAux/imc_solve.dart';
+import 'LogicAux/formatter.dart';
 
 class AppImc extends StatefulWidget {
   @override
@@ -9,12 +9,13 @@ class AppImc extends StatefulWidget {
 }
 
 class _AppImcState extends State<AppImc> {
-  final formatter = intl.NumberFormat.decimalPattern();
-
+  final formatter = Formater();
   final cmController = TextEditingController();
   final kgController = TextEditingController();
 
   decoratedLabel(String pedido, TextEditingController controller) {
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
     String caracteristica = '';
     int tamanhoMaximo = 1;
 
@@ -28,11 +29,12 @@ class _AppImcState extends State<AppImc> {
 
     return TextFormField(
       onChanged: (text) {
-        setState(() {
-          try {
-            formatter.format(int.parse(text));
-          } on FormatException catch (_) {}
-        });
+        try {
+          setState(() {
+            controller.text = formatter.pesoFormat(text);
+          });
+          print(formatter.alturaFormat(text));
+        } on FormatException catch (_) {}
       },
       controller: controller,
       keyboardType: TextInputType.number,
