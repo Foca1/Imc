@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'LogicAux/imc_solve.dart';
-import 'LogicAux/formatter.dart';
+import 'LogicAux/decorated_labels.dart';
 
 class AppImc extends StatefulWidget {
   @override
@@ -9,51 +11,14 @@ class AppImc extends StatefulWidget {
 }
 
 class _AppImcState extends State<AppImc> {
-  final formatter = Formater();
-  final cmController = TextEditingController();
-  final kgController = TextEditingController();
-
-  decoratedLabel(String pedido, TextEditingController controller) {
-    controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: controller.text.length));
-    String caracteristica = '';
-    int tamanhoMaximo = 1;
-
-    if (pedido == 'cm') {
-      tamanhoMaximo = 3;
-      caracteristica = 'Altura';
-    } else {
-      tamanhoMaximo = 5;
-      caracteristica = 'Peso';
-    }
-
-    return TextFormField(
-      onChanged: (text) {
-        try {
-          setState(() {
-            controller.text = formatter.pesoFormat(text);
-          });
-          print(formatter.alturaFormat(text));
-        } on FormatException catch (_) {}
-      },
-      controller: controller,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[.,0-9]'))],
-      maxLength: tamanhoMaximo,
-      decoration: InputDecoration(
-        counterText: '',
-        labelText: caracteristica,
-        labelStyle: const TextStyle(
-          fontSize: 22,
-        ),
-        floatingLabelStyle: const TextStyle(fontSize: 18),
-      ),
-    );
-  }
+  var cmController = TextEditingController();
+  var kgController = TextEditingController();
+  var imc;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.only(top: 70),
         child: Column(
@@ -85,22 +50,45 @@ class _AppImcState extends State<AppImc> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: decoratedLabel('cm', cmController),
             ),
-            //Resultado
+            //Button Resultado
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
               child: ElevatedButton(
-                child: Text('Calcular'),
+                child: const Text(
+                  'Calcular',
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(300, 40),
+                ),
                 onPressed: () {
-                  final cm =
-                      double.parse(cmController.text.replaceAll(',', '.'));
-                  final kg =
-                      double.parse(kgController.text.replaceAll(',', '.'));
+                  var cm = double.parse(cmController.text == ''
+                      ? cmController.text = '0.0'
+                      : cmController.text);
 
-                  final imc = double.parse(
-                      imcSolver().imc(kg, cm).toStringAsPrecision(4));
+                  var kg = double.parse(kgController.text == ''
+                      ? kgController.text = '0.0'
+                      : kgController.text);
 
-                  print(imc);
+                  setState(() => imc = double.parse(
+                      imcSolver().imc(kg, cm).toStringAsPrecision(4)));
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 130,
+              ),
+              child: Text(
+                'Seu imc é \n    ${imc == null ? '' : imc.toString()}',
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple,
+                ),
               ),
             )
           ],
