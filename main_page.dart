@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'LogicAux/imc_solve.dart';
 import 'LogicAux/decorated_labels.dart';
 
@@ -73,7 +70,7 @@ class _AppImcState extends State<AppImc> {
                       : kgController.text);
 
                   setState(() => imc = double.parse(
-                      imcSolver().imc(kg, cm).toStringAsPrecision(4)));
+                      ImcSolver().imc(kg, cm).toStringAsPrecision(4)));
                 },
               ),
             ),

@@ -1,5 +1,3 @@
-class imcSolver {
-  double imc(kg, cm) {
-    return (kg / (cm * cm));
-  }
+class ImcSolver {
+  double imc(kg, cm) => (kg / (cm * cm));
 }
