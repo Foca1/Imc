@@ -6,8 +6,7 @@ decoratedLabel(String pedido, TextEditingController controller) {
   var maskedCm =
       MaskTextInputFormatter(mask: '#.##', filter: {"#": RegExp(r'[0-9]')});
 
-  var maskedKg =
-      MaskTextInputFormatter(mask: '###.##', filter: {"#": RegExp(r'[0-9]')});
+  var maskedKg = MaskTextInputFormatter(filter: {"#": RegExp(r'[0-9]')});
 
   String caracteristica = '';
   int tamanhoMaximo = 1;
@@ -40,5 +39,12 @@ decoratedLabel(String pedido, TextEditingController controller) {
       fontWeight: FontWeight.w500,
       fontSize: 18,
     ),
+    onChanged: (value) {
+      if (pedido != 'cm') {
+        controller.text.length < 5
+            ? maskedKg.updateMask(mask: '##.##')
+            : maskedKg.updateMask(mask: '###.##');
+      }
+    },
   );
 }
