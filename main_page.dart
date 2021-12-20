@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'LogicAux/imc_solve.dart';
-import 'LogicAux/decorated_labels.dart';
+import 'imc_solve.dart';
+import 'Widgets/decorated_labels.dart';
+import 'Widgets/radial_gauge.dart';
 
 class AppImc extends StatefulWidget {
   @override
@@ -47,7 +48,7 @@ class _AppImcState extends State<AppImc> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: decoratedLabel('cm', cmController),
             ),
-            //Button Resultado
+            //Button Calcular
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
               child: ElevatedButton(
@@ -75,18 +76,8 @@ class _AppImcState extends State<AppImc> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 130,
-              ),
-              child: Text(
-                'Seu imc é \n    ${imc == null ? '' : imc.toString()}',
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple,
-                ),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: RadialGauge(),
             )
           ],
         ),
