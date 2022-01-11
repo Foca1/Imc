@@ -11,7 +11,7 @@ class AppImc extends StatefulWidget {
 class _AppImcState extends State<AppImc> {
   var cmController = TextEditingController();
   var kgController = TextEditingController();
-  var imc;
+  double imc = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +75,14 @@ class _AppImcState extends State<AppImc> {
                 },
               ),
             ),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: RadialGauge(),
-            )
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: SizedBox(
+                child: RadialGauge(valueImc: imc),
+                height: 312,
+              ),
+            ),
           ],
         ),
       ),
