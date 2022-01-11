@@ -17,7 +17,7 @@ setGauge({color, labelname, start, end}) {
   );
 }
 
-RadialGauge({double valueImc = 0}) {
+radialGauge({double valueImc = 0}) {
   return SfRadialGauge(
     axes: [
       RadialAxis(

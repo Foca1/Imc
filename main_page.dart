@@ -79,7 +79,7 @@ class _AppImcState extends State<AppImc> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: SizedBox(
-                child: RadialGauge(valueImc: imc),
+                child: radialGauge(valueImc: imc),
                 height: 312,
               ),
             ),
